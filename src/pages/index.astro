@@ -1,21 +1,286 @@
 ---
-// Home page - renders CRT theme
-import CRTLayout from '../layouts/crt/CRTLayout.astro';
-import CRTHero from '../components/crt/CRTHero.astro';
-import CRTThemeToggle from '../components/crt/CRTThemeToggle.astro';
+import ModernLayout from '../layouts/ModernLayout.astro';
+
+const gallery = [
+  { src: '/img/gallery/photo-1.svg', caption: 'my wife', size: 'l' },
+  { src: '/img/gallery/photo-2.svg', caption: 'my family', size: 'm' },
+  { src: '/img/gallery/photo-3.svg', caption: 'woodworking', size: 'm' },
+  { src: '/img/gallery/photo-4.svg', caption: 'mountain biking', size: 'l' },
+  { src: '/img/gallery/photo-5.svg', caption: 'changing flat tyres', size: 'm' },
+  { src: '/img/gallery/photo-6.svg', caption: 'cows', size: 's' }
+];
+
 ---
 
-<CRTLayout title="Nathan Broadbent">
-  <CRTHero />
-</CRTLayout>
-<CRTThemeToggle />
+<ModernLayout title="Nathan Broadbent">
+  <main class="page">
+    <div class="page-inner" style="margin-bottom: 3.5rem;">
+      <header class="hero">
+        <div class="hero-top">
+          <span class="eyebrow mono">Founder / Engineer / Maker</span>
+          <nav class="time-machine mono" aria-label="Time machine">
+            <span class="time-label">Time machine</span>
+            <a href="/crt">CRT</a>
+            <a href="/90s">90s</a>
+          </nav>
+        </div>
 
-<script>
-  // Check if user wants retro theme and redirect
-  const THEME_KEY = 'theme-preference';
-  const stored = localStorage.getItem(THEME_KEY);
+        <h1>Nathan Broadbent</h1>
+        <p class="lede">
+          I am a software engineer and startup founder.
+          <br/>I run DocSpring, a PDF automation service for developers. I like to build tools and games. Other hobbies include woodworking, mountain biking, electronics, and just making stuff in general.
+        </p>
+      </header>
+    </div>
+  </main>
+</ModernLayout>
 
-  if (stored === 'dark' || stored === 'light') {
-    window.location.replace('/retro');
+<style>
+  .page {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 0 0;
   }
-</script>
+
+  .page-inner {
+    width: min(1120px, 92vw);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .hero {
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 3.5rem;
+    box-shadow: 0 24px 60px var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: -40% 40% auto -20%;
+    height: 260px;
+    background: linear-gradient(120deg, rgba(10, 74, 74, 0.25), rgba(201, 91, 43, 0.1), transparent 60%);
+    transform: rotate(-8deg);
+    z-index: 0;
+  }
+
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+
+  .time-machine {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .time-label {
+    padding-right: 0.25rem;
+  }
+
+  .time-machine a {
+    border: 1px solid rgba(10, 74, 74, 0.2);
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: var(--surface-2);
+    color: var(--accent);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .time-machine a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--shadow);
+  }
+
+  .hero h1 {
+    margin-top: 1.5rem;
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    position: relative;
+    z-index: 1;
+  }
+
+  .lede {
+    margin-top: 1rem;
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 680px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .intro {
+    padding: 1.5rem 0 0.5rem;
+  }
+
+  .intro-lead {
+    font-size: 1rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .intro-love {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .full-bleed {
+    width: 100vw;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    padding: 0 3vw 6rem;
+  }
+
+  .mosaic {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-auto-rows: 140px;
+    gap: 8px;
+  }
+
+  .tile {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
+    border: 2px solid #fff;
+    background: #fff;
+    z-index: 1;
+    padding: 12px 12px 22px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tile-caption {
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: clamp(0.95rem, 1.4vw, 1.4rem);
+    color: #111;
+  }
+
+  .tile-button {
+    width: 100%;
+    flex: 1;
+    display: block;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: zoom-in;
+    position: relative;
+  }
+
+  .tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+    border-radius: 0;
+  }
+
+  .tile-button:hover img {
+    transform: scale(1.02);
+  }
+
+  .size-l { grid-column: span 4; grid-row: span 2; }
+  .size-m { grid-column: span 3; grid-row: span 2; }
+  .size-s { grid-column: span 2; grid-row: span 1; }
+
+
+  #lightbox {
+    border: none;
+    background: rgba(0, 0, 0, 0.88);
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  #lightbox::backdrop {
+    background: rgba(0, 0, 0, 0.85);
+  }
+
+  #lightbox-img {
+    max-width: 90vw;
+    max-height: 85vh;
+    border-radius: 12px;
+    display: block;
+  }
+
+  #lightbox form {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  #lightbox button {
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: #fff;
+    cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      padding: 2.5rem;
+    }
+
+    .mosaic {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-auto-rows: 120px;
+    }
+
+    .size-l { grid-column: span 6; }
+    .size-m { grid-column: span 3; }
+    .size-s { grid-column: span 3; }
+    .size-xl { grid-column: span 6; grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 680px) {
+    .page {
+      padding-top: 3rem;
+    }
+
+    .hero-top {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .time-machine {
+      flex-wrap: wrap;
+    }
+
+    .mosaic {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: 140px;
+    }
+
+    .size-l,
+    .size-m,
+    .size-s,
+    .size-xl {
+      grid-column: span 2;
+    }
+
+    .size-xl {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

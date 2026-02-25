@@ -1,5 +1,5 @@
 ---
-// Theme toggle button component
+// Theme toggle button component (no storage, no auto-redirect)
 ---
 
 <button class="theme-toggle" aria-label="Toggle theme">
@@ -19,26 +19,16 @@
 </button>
 
 <script>
-  const THEME_KEY = 'theme-preference';
   const THEMES = ['dark', 'light', 'crt'];
-
-  function getStoredTheme() {
-    const stored = localStorage.getItem(THEME_KEY);
-    // If no stored theme, detect from system preference
-    if (!stored) {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    return stored;
-  }
+  let currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
   function applyTheme(theme: string) {
-    // Navigate to appropriate page
     if (theme === 'crt') {
-      window.location.href = '/';
+      // User-initiated only
+      window.location.href = '/crt';
       return;
     }
 
-    // Apply dark/light theme (we're on retro page)
     if (theme === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
     } else {
@@ -59,18 +49,14 @@
   }
 
   function cycleTheme() {
-    const currentTheme = getStoredTheme();
     const currentIndex = THEMES.indexOf(currentTheme);
-    const nextIndex = (currentIndex + 1) % THEMES.length;
-    const nextTheme = THEMES[nextIndex];
-
-    localStorage.setItem(THEME_KEY, nextTheme);
+    const nextTheme = THEMES[(currentIndex + 1) % THEMES.length];
+    currentTheme = nextTheme;
     applyTheme(nextTheme);
   }
 
   function init() {
-    const storedTheme = getStoredTheme();
-    applyTheme(storedTheme);
+    applyTheme(currentTheme);
 
     const toggleButton = document.querySelector('.theme-toggle');
     if (toggleButton) {

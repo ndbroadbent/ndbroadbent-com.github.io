@@ -1,5 +1,5 @@
 ---
-// CRT-themed toggle to cycle themes (including back to normal site)
+// CRT-themed toggle (no storage, no auto-redirect)
 ---
 
 <button class="crt-theme-toggle" aria-label="Toggle theme">
@@ -10,26 +10,18 @@
 </button>
 
 <script>
-  const THEME_KEY = 'theme-preference';
   const THEMES = ['crt', 'dark', 'light'];
-
-  function getStoredTheme() {
-    return localStorage.getItem(THEME_KEY) || 'crt';
-  }
+  let currentTheme = 'crt';
 
   function cycleTheme() {
-    const currentTheme = getStoredTheme();
     const currentIndex = THEMES.indexOf(currentTheme);
-    const nextIndex = (currentIndex + 1) % THEMES.length;
-    const nextTheme = THEMES[nextIndex];
+    const nextTheme = THEMES[(currentIndex + 1) % THEMES.length];
+    currentTheme = nextTheme;
 
-    localStorage.setItem(THEME_KEY, nextTheme);
-
-    // Navigate to appropriate page
     if (nextTheme === 'crt') {
-      window.location.href = '/';
+      window.location.href = '/crt';
     } else {
-      window.location.href = '/retro';
+      window.location.href = '/90s';
     }
   }
 
